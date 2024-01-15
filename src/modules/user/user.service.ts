@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'sequelize-typescript';
@@ -17,7 +17,14 @@ export class UserService {
     }
 
     async findAll() {
-        return await this.userRepository.findAll();
+        const usuarioSalvos = await this.userRepository.findAll({
+            attributes:{
+                exclude: ['password']
+            }
+        });
+        const usuarioLista = usuarioSalvos.map((usuarios) => usuarios.dataValues);
+
+        return usuarioLista;
     }
 
     async findOne(id: string) {

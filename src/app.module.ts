@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
 import { SequelizeConfigModule } from './common/sequelize/sequelize.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
     imports: [
@@ -8,6 +9,11 @@ import { SequelizeConfigModule } from './common/sequelize/sequelize.module';
         SequelizeConfigModule
     ],
     controllers: [],
-    providers: [],
+    providers: [
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ClassSerializerInterceptor
+        }
+    ],
 })
 export class AppModule {}

@@ -1,7 +1,9 @@
 // user.model.ts
 import { Model, Column, Table, DataType } from 'sequelize-typescript';
+import { UserRoleEnum } from '../enum/userRole.enum';
+import { Exclude } from 'class-transformer';
 
-@Table
+@Table({tableName: 'users'})
 export class UserEntity extends Model<UserEntity> {
     @Column({
         type: DataType.UUID,
@@ -23,9 +25,16 @@ export class UserEntity extends Model<UserEntity> {
     })
         email: string;
 
+    @Exclude()
     @Column({
         type: DataType.STRING,
         allowNull: false,
     })
         password: string;
+
+    @Column({
+        type: DataType.ENUM(...Object.values(UserRoleEnum)),
+        allowNull: false,
+    })
+        role: UserRoleEnum;
 }
