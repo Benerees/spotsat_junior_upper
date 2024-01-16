@@ -1,22 +1,26 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { UserRoleEnum } from '../enum/userRole.enum';
+import { EmailUnique } from '../validator/emailUnique.validator';
+import { UserRoleValidator } from '../validator/userRole.validator';
 
 export class CreateUserDto {
-    @IsNotEmpty()
     @IsString()
+    @IsNotEmpty()
         name: string;
 
-    @IsNotEmpty()
-    @IsString()
+    @EmailUnique({ message: 'This email is already in use'})
     @IsEmail()
+    @IsString()
+    @IsNotEmpty()
         email: string;
 
-    @IsNotEmpty()
-    @IsString()
     @MinLength(6)
-        password: string;
-    
-    @IsNotEmpty()
     @IsString()
+    @IsNotEmpty()
+        password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @UserRoleValidator({ message: 'This Role not exists'})
         role: UserRoleEnum;
 }
