@@ -3,7 +3,8 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { HashearSenhaPipe } from 'src/common/pipes/hashear-senha.pipe';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { RoleGuard } from '../auth/guards/role.guard';
 
 @Controller('user')
 export class UserController {
@@ -20,7 +21,7 @@ export class UserController {
         });
     }
     
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RoleGuard)
     @Get()
     async findAll() {
         return await this.userService.findAll();
@@ -32,13 +33,13 @@ export class UserController {
         return this.userService.findOne(id);
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RoleGuard)
     @Patch(':id')
     async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
         return this.userService.update(id, updateUserDto);
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RoleGuard)
     @Delete(':id')
     async remove(@Param('id') id: string) {
         return this.userService.remove(id);

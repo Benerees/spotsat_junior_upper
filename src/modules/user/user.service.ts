@@ -37,17 +37,17 @@ export class UserService {
 
     async findOne(id: string){
         const userSave = await this.findById(id);
-
+        
         const { password, ...userWithoutPassword } = userSave;
-
+        
         return userWithoutPassword;
     }
-
+    
     async findById(id: string) {
         const userSave = await this.userRepository.findOne({
             where: { id }
         });
-
+        
         if(userSave === null)
             throw new NotFoundException('User not found');
 
