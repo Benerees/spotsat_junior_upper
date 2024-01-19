@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
+import { FiltersDto } from './dto/filters.dto';
+import { WhereOptions } from 'sequelize';
 
 @Injectable()
 export class UserService {
@@ -24,11 +26,23 @@ export class UserService {
         return userCreated.dataValues;
     }
 
-    async findAll() {
+    async findAll(filter: FiltersDto) {
+        const offset = (filter.page - 1) * 5;
+
+        const whereCondition: WhereOptions = {
+        };
+        
+        if (filter.role) {
+            whereCondition.role = filter.role;
+        }
+          
         const userSaves = await this.userRepository.findAll({
             attributes:{
                 exclude: ['password']
-            }
+            },
+            offset,
+            limit: 5,
+            where: whereCondition
         });
         const userList = userSaves.map((usuarios) => usuarios.dataValues);
 

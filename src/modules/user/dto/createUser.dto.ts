@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { UserRoleEnum } from '../enum/userRole.enum';
 import { EmailUnique } from '../validator/emailUnique.validator';
 import { UserRoleValidator } from '../validator/userRole.validator';
@@ -21,6 +21,6 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    @UserRoleValidator({ message: 'This Role not exists'})
+    @IsEnum(UserRoleEnum)
         role: UserRoleEnum;
 }

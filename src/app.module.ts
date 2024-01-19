@@ -10,7 +10,7 @@ import { ExceptionGlobalFilter } from './common/filtros/exception-global-filter'
     imports: [
         UserModule,
         SequelizeConfigModule,
-        AuthModule
+        AuthModule,
     ],
     controllers: [],
     providers: [
