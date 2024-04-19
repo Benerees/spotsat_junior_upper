@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, Va
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
-import { HashearSenhaPipe } from 'src/common/pipes/hashear-senha.pipe';
+import { HashearSenhaPipe } from './../../common/pipes/hashear-senha.pipe';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { FiltersDto } from './dto/filters.dto';

@@ -3,7 +3,7 @@ import { Request } from 'express';
 
 import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from '../auth.service';
-import { UserService } from 'src/modules/user/user.service';
+import { UserService } from './../../../modules/user/user.service';
 
 export interface requestWithGuard extends Request{
     user: UserPayload
