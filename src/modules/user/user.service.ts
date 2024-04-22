@@ -29,8 +29,7 @@ export class UserService {
     async findAll(filter: FiltersDto) {
         const offset = (filter.page - 1) * 5;
 
-        const whereCondition: WhereOptions = {
-        };
+        const whereCondition: WhereOptions = {};
         
         if (filter.role) {
             whereCondition.role = filter.role;
@@ -44,6 +43,7 @@ export class UserService {
             limit: 5,
             where: whereCondition
         });
+
         const userList = userSaves.map((usuarios) => usuarios.dataValues);
 
         return userList;
@@ -87,7 +87,7 @@ export class UserService {
     }
 
     async remove(id: string) {
-        const user = await this.findOne(id);
+        const user = await this.findById(id);
 
         return await this.userRepository.destroy({
             where: { id },

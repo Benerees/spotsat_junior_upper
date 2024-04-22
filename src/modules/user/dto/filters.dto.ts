@@ -3,13 +3,13 @@ import { UserRoleEnum } from '../enum/userRole.enum';
 
 
 export class FiltersDto {
-    @IsOptional()
     @IsNumberString()
-        page: number;
-
     @IsOptional()
+        page?: number;
+
     @IsString()
     @IsNotEmpty()
     @IsEnum(UserRoleEnum)
-        role: UserRoleEnum;
+    @IsOptional()
+        role?: UserRoleEnum;
 }

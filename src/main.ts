@@ -17,7 +17,15 @@ async function bootstrap() {
     });
     app.use(limiter);
 
-    
+    app.enableCors({
+        origin: (origin, callback) => {
+            if (!origin || !origin.startsWith('http://localhost')) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+    });
     app.use(helmet());
     app.use(cookieParser());
     app.use(csurf({ cookie: { sameSite: true } }));

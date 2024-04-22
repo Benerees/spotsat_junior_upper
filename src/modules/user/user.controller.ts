@@ -6,7 +6,6 @@ import { HashearSenhaPipe } from './../../common/pipes/hashear-senha.pipe';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { FiltersDto } from './dto/filters.dto';
-import { ParseIntPipe } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
