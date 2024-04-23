@@ -6,18 +6,21 @@ import { UserEntity } from './entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
 import { UserRoleEnum } from './enum/userRole.enum';
 import { FiltersDto } from './dto/filters.dto';
+import { SequelizeConfigModule } from '../../common/sequelize/sequelize.module';
 
 const mockUserRepository = {
     destroy: jest.fn(),
     findOne: jest.fn(),
     create: jest.fn(),
-    findAll: jest.fn()
+    findAll: jest.fn(),
+    update: jest.fn(),
 };
 describe('UserService', () => {
     let userService: UserService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
+            imports: [SequelizeConfigModule],
             providers: [
                 UserService,
                 {
@@ -144,6 +147,62 @@ describe('UserService', () => {
         const result = await userService.findAll({
             page: 1,
         });
+
+        expect(result);
+    });
+
+    it('Deve retornar todos os usuários com uma role específica', async () => {
+        mockUserRepository.findAll.mockResolvedValueOnce([   
+            {
+                dataValues: {
+                    'id': '24702c0f-4977-4527-8972-abf5eaa9a168',
+                    'name': 'Luca',
+                    'email': 'luca@gmail.com',
+                    'role': 'administrador',
+                    'createdAt': '2024-01-18T17:45:04.281Z',
+                    'updatedAt': '2024-01-18T17:45:04.281Z'
+                }
+            }
+        ]);
+
+        const result = await userService.findAll({
+            page: 1,
+            role: UserRoleEnum.ADMINISTRADOR
+        });
+
+        expect(result);
+    });
+
+    it('Deve fazer um update no usuário especificado', async () => {
+        mockUserRepository.findOne.mockResolvedValueOnce(
+            {
+                dataValues: {
+                    'id': '24702c0f-4977-4527-8972-abf5eaa9a168',
+                    'name': 'Luca',
+                    'email': 'luca@gmail.com',
+                    'role': 'administrador',
+                    'createdAt': '2024-01-18T17:45:04.281Z',
+                    'updatedAt': '2024-01-18T17:45:04.281Z'
+                }
+            }
+        );
+        mockUserRepository.update.mockResolvedValueOnce([   
+            {
+                dataValues: {
+                    'id': '24702c0f-4977-4527-8972-abf5eaa9a168',
+                    'name': 'Bene',
+                    'email': 'luca@gmail.com',
+                    'role': 'administrador',
+                    'createdAt': '2024-01-18T17:45:04.281Z',
+                    'updatedAt': '2024-01-18T17:45:04.281Z'
+                }
+            }
+        ]);
+
+        const result = await userService.update(
+            '24702c0f-4977-4527-8972-abf5eaa9a168',
+            {name: 'Bene'}
+        );
 
         expect(result);
     });
